@@ -8,42 +8,6 @@ import platform as  plf
 sbp.run("clear")
 
 #####################################################################################################
-def checkRestrictedMode():
-    #Check wheather running windows or not
-    def is_platform_windows():
-        return plf.system() == "Windows"
-        
-    from pathlib import Path
-    innerTube = None
-
-    #Python Version
-    index = str(plf.python_version()).find(".")
-
-    #Platform ke according Path
-    if is_platform_windows():
-
-        # Get the user directory
-        user_directory = Path.home()
-        pyVersion = str(plf.python_version())[:index]+str(plf.python_version())[index+1:index+3]
-        innerTube = str(user_directory)+"\AppData\Local\Programs\Python\Python{}\Lib\site-packages\pytube\innertube.py".format(pyVersion)
-    else:
-        
-        pyVersion = str(plf.python_version())[:index+3]
-        innerTube = "/usr/local/python/{}/lib/python{}/site-packages/pytube/innertube.py".format(plf.python_version(),pyVersion)
-
-    file = open(innerTube, "r")
-    lines = file.readlines()
-    index=0
-    for line in lines:
-        index=index+1
-        if index == 223:
-            if line == "    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):\n":
-                file.close()
-                sbp.run("clear")
-                print("All Setup👍")
-            else:
-                setup.setup()
-#####################################################################################################
 def filterStream(video):
     #Get the list of itag
     iTaglist = sbp.run(["pytube", "{}".format(video), "--list"], text=True, stdout=sbp.PIPE)
@@ -79,8 +43,7 @@ while(True):
     print("2. Single Video with link")
     print("3. Full Playlist with link of playlist")
     print("4. Combine video and audio")
-    print("5. Setup(If this is your firs time running the program)")
-    print("6. Exit")
+    print("5. Exit")
 
     choice = int(input("Choice: "))
 
@@ -293,14 +256,9 @@ while(True):
             con.convert(video, audio, title)
         except:
             print("Please use other options or try again later.")
-            
-    #Quick testing to check if the restricted videos are also downloading
-    elif choice == 5:
-        print("Testing with restricted mode ON")
-        checkRestrictedMode()
     
     #Exit
-    elif choice == 6:
+    elif choice == 5:
 
         sbp.run("clear")
         print("Thank you!!")
