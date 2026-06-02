@@ -69,7 +69,7 @@ while(True):
             audio_type = 140
         else:
             audio_type = 251
-        # TO-DO Implement a download option with choice of quality of audio and video
+
         try:
             ydl_opts = {
                 'quiet': False,
