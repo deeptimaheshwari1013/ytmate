@@ -50,9 +50,40 @@ while(True):
     
     # Single Video with format information
     elif choice == 2:
+        yt_url = str(input("Enter video link:"))
+        audio_ext = str(input("enter the audio extension:"))
+        video_ext = str(input("enter the video extension:"))
+        
+        if(video_ext =="mp4") :
+            video_type = 137
+        elif(video_ext =="webm"):
+            video_type = 248
+        elif(video_ext =="mov"):
+            video_type = 123
+        else:
+            video_type = 137
+        
+        if(audio_ext =="webm"):
+            audio_type = 251
+        elif(audio_ext =="m4a"):
+            audio_type = 140
+        else:
+            audio_type = 251
 
-        # TO-DO Implement a download option with choice of quality of audio and video
-        pass
+        try:
+            ydl_opts = {
+                'quiet': False,
+                'no_warnings': True,
+                'format': f'{video_type} + {audio_type}',
+                'merge_output_format' : 'mp4'
+            }
+            with ytdlp.YoutubeDL(ydl_opts) as ydl:
+                print("downloading...")
+                ydl.download([yt_url])
+            sbp.run("clear")
+            print("yayy it worked")
+        except Exception as e:
+            print("please try again")
     
     # Playlist Download
     elif choice == 3:
